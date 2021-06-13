@@ -1,0 +1,46 @@
+/* markdown-section */
+.markdown-section h1 {
+    text-align: center !important;
+}
+.markdown-section h1, h2, h3, h4, h5, h6 {
+    margin: 5px 1px !important;
+}
+.markdown-section figure, .markdown-section p {
+    margin: 2px 0 !important;
+}
+.markdown-section ol, .markdown-section ul {
+    margin: 4px 0px !important;
+}
+.markdown-section output, .markdown-section pre {
+    margin: 4px 0 !important;
+}
+
+.markdown-section table {
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+}
+.markdown-section pre>code {
+    padding: 10px 5px !important;
+}
+
+/* section */
+section.cover h1 {
+    font-weight: 600 !important;
+}
+
+/* sidebar */
+.sidebar{
+    border-right-width: 1px !important;
+    border-right-style: ridge !important;
+}
+.sidebar>h1{
+    font-weight: 600 !important;
+}
+input[type="search"]{
+    border-width: 2px !important;
+    border-radius: 10px !important;
+}
+.sidebar-nav{
+    border-top-width: 1px !important;
+    border-top-style: ridge !important;
+}

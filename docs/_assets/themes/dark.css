@@ -1,0 +1,19 @@
+/* anchor */
+.anchor span {
+    color: #337cc5 !important;
+}
+
+/* sidebar */
+.sidebar{
+    border-right-color: #b4b48b !important;
+}
+.sidebar, body{
+    background-image: url("../images/paper_niupi_2.png") !important;
+}
+.sidebar-nav{
+    border-top-color: #b4b48b !important;
+}
+.sidebar input[type="search"]{
+    border-color: #337cc5 !important;
+    background:none !important;
+}
