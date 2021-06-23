@@ -1,10 +1,13 @@
 * **导读目录**
-    * [**重学java基础**](_study/重学java基础/README)
-    * [**初学设计模式**](_study/初学设计模式/README)
-    * [**Spring全家桶**](_study/spring全家桶/README)
-    * [**待规划笔记**](_study/待规划笔记/README)
-    * [**PMP考试复习**](_study/PMP考试复习/README)
-    * [**docker学习**](_study/docker学习/README)
+    * [**待规划中笔记**](_study/待规划中笔记/README)
+    * [**开发语言学习**](_study/开发语言学习/README)
+    * [**设计模式学习**](_study/设计模式学习/README)
+    * [**框架技术学习**](_study/框架技术学习/README)
+    * [**算法数据结构**](_study/算法数据结构/README)
+    * [**个人能力提升**](_study/个人能力提升/README)
+    * [**学海逆水行舟**](_study/学海逆水行舟/README)
+    * [**面试题目汇总**](_study/面试题目汇总/README)
+
 
     
     
