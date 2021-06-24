@@ -11,6 +11,7 @@
   * [**Docker镜像离线使用**](offline)
   * [**Maven整合Docker插件**](maven_docker)
   * [**Kubernetes安装**](installk8s)
-  * [**Kubernetes基础知识**](Kubernetes基础知识)
+  * [**Kubernetes基础知识**](k8s_basic)
+  * [**Kubernetes命令介绍**](k8s_command)
   * [**Docker使用问题记录**](trouble_tickets)
 

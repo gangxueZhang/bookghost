@@ -1,7 +1,9 @@
 # Docker命令介绍
 ## Docker维护命令
 
-* docker logs ：查看docker日志
+### docker logs查看日志
+
+**功能说明:**查看docker日志
 
 ```shell
 # containerId表示容器ID
@@ -12,7 +14,9 @@ docker logs -f containerId
 # 查看容器详细的日志信息
 docker logs --details containerId
 ```
-* docker inspect ：查看Docker对象的基本信息
+### docker inspect基本信息
+
+**功能说明:**查看Docker对象的基本信息
 
 ```shell
 # containerId表示容器ID
@@ -21,7 +25,7 @@ docker inspect containerId
 ```
 
 ## Docker常用命令
-* docker ps ：查看可用容器
+### docker ps查看可用容器
 
 ```shell
 # 查看已经启动的容器
@@ -29,34 +33,44 @@ docker ps
 # 查看所有的容器，包括退出的容器
 docker ps -a 
 ```
-* docker search ：在`Docker hub`(公有仓库)中查找镜像
+### docker search查找镜像
+
+**功能说明:** 在`Docker hub`(公有仓库)中查找镜像
 
 ```shell
 # 在公有仓库中查询centos进行
 docker search centos  
 ```
-* docker pull ：在`Docker hub`(公有仓库)中下载镜像
+### docker pull下载镜像
+
+ **功能说明:** 在`Docker hub`(公有仓库)中下载镜像
 
 ```shell
 # 从公有仓库下载centos镜像
 docker pull centos  
 ```
-* docker push ：上传个人镜像
+### docker push上传镜像
+
+**功能说明:** 上传个人镜像
 
 ```shell
 #将centos镜像上传到公有仓库
 docker push centos  
 ```
-* docker image ：查看本地镜像
+### docker image查看镜像
+
+**功能说明:** 查看本地镜像
 
 ```shell
 #列举本地镜像列表
 docker image ls  
 ```
-## docker images  
+### docker images镜像列表
 **功能说明:** 列举本地镜像列表  
 **参数说明:**  
+
 ```shell
+docker images [OPTIONS] [REPOSITORY[:TAG]]
 -a :列出本地所有的镜像（含中间映像层，默认情况下，过滤掉中间映像层）；
 --digests :显示镜像的摘要信息；
 -f :显示满足条件的镜像；
@@ -72,13 +86,32 @@ docker images
 docker images java
 ```
 
+### docker rmi删除镜像
 
-## docker run
+**功能说明:** 删除本地一个或多少镜像。
+
+**参数说明:**  
+
+```shell
+docker rmi [OPTIONS] IMAGE [IMAGE...]
+-f :强制删除；
+--no-prune :不移除该镜像的过程镜像，默认移除；
+```
+
+**案例说明:**  
+
+```shell
+# 删除runoob/ubuntu:v4镜像
+docker rmi -f runoob/ubuntu:v4
+```
+
+### docker run运行镜像
+
 **功能说明:** 在一个容器中运行命令，需指定镜像  
 **参数说明:**
+
 ```shell
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
-OPTIONS说明：
 -a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；
 -d: 后台运行容器，并返回容器ID；
 -i: 以交互模式运行容器，通常与 -t 同时使用；
@@ -116,7 +149,32 @@ $ docker run -p 127.0.0.1:80:8080/tcp ubuntu bash
 $ docker run -it nginx:latest /bin/bash
 ```
 
+### docker rm删除容器
 
+* 参数说明
+
+```shell
+docker rm [OPTIONS] CONTAINER [CONTAINER...]
+-f :通过 SIGKILL 信号强制删除一个运行中的容器。
+-l :移除容器间的网络连接，而非容器本身。
+-v :删除与容器关联的卷。
+```
+
+* 案例说明
+
+```shell
+# 强制删除容器 db01、db02
+docker rm -f db01 db02
+
+# 移除容器 nginx01 对容器 db01 的连接，连接名 db：
+docker rm -l db 
+
+# 删除容器 nginx01, 并删除容器挂载的数据卷：
+docker rm -v nginx01
+
+# 删除所有已经停止的容器：
+docker rm $(docker ps -a -q)
+```
 
 # Docker使用场景案例
 

@@ -6,5 +6,9 @@
 
 [javase8说明文档首页](https://docs.oracle.com/javase/8/docs/index.html)
 
+[javase说明文档首页](https://docs.oracle.com/javase/specs/index.html)
+
+
+
 
 
