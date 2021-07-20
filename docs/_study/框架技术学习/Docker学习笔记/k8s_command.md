@@ -283,6 +283,56 @@ $ kubectl replace --force -f ./pod.json
     --wait=false: 如果为 true，则等待资源消失后再返回。 这等待终结者。
 ```
 
+### kubectl apply资源配置
+
+**功能说明：** 通过文件名或控制台输入，对资源进行配置。
+
+```shell
+# 语法
+$ kubectl apply (-f FILENAME | -k DIRECTORY) [options]
+# 将pod.json中的配置应用到pod。
+$ kubectl apply -f ./pod.json
+# 从包含kustomization.yaml的目录中应用资源 - 例如：目录/kustomization.yaml。
+$ kubectl apply -k dir/
+# 将传入stdin的JSON应用到pod。
+$ cat pod.json | kubectl apply -f -
+# 注意：--prune仍处于内部测试阶段
+# 应用 manifest.yml中匹配标签app=nginx的配置，并删除文件中没有匹配标签app=nginx的所有其他资源。
+$ kubectl apply --prune -f manifest.yaml -l app=nginx
+# 应用manifest.yaml中的配置并删除文件中没有的所有其他配置映射。
+$ kubectl apply --prune -f manifest.yaml --all --prune-whitelist=core/v1/ConfigMap
+```
+
+```shell
+#选项
+    --all=false: 选择指定资源类型的命名空间中的所有资源。
+    --allow-missing-template-keys=true: 如果为 true，则在模板中缺少字段或映射键时忽略模板中的任何错误。仅适用于golang和jsonpath输出格式。
+    --cascade=true: 如果为 true，则级联删除此资源管理的资源，默认为真。
+    --dry-run=false: 如果为 true，则只打印将要发送的对象，而不发送它。 警告：--dry-run无法准确输出合并本地清单和服务器端数据的结果。使用 --server-dry-run来获取合并结果。
+    --field-manager='kubectl'：用于跟踪字段所有权的经理的名称。
+-f, --filename=[]: 包含要应用的配置
+    --force=false: 仅在宽限期=0时使用。 如果为 true，则立即从API中删除资源并绕过正常删除。请注意，立即删除某些资源可能会导致不一致或数据丢失，需要确认。
+    --force-conflicts=false: 如果为 true，则服务器端应用将针对冲突强制更改。
+    --grace-period=-1: 给予资源正常终止的时间段(以秒为单位)。如果为负则忽略。设置为 1以立即关闭。只能在 --force为 true时设置为 0(强制删除)。
+-k, --kustomize='': 处理自定义目录。 此标志不能与 -f或 -R一起使用。
+    --openapi-patch=true: 如果为 true，则在openapi出现并且资源可以在openapi规范中找到时使用openapi计算差异。 否则，回退到使用baked-in类型。
+-o, --output='': 输出格式。json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-file其中之一
+    --overwrite=true: 使用修改后的配置中的值自动解决修改后的配置和实时配置之间的冲突
+    --prune=false: 自动删除资源对象，包括未初始化的资源对象，这些对象没有出现在配置中并且由apply或 create --save-config创建。 应与 -l或 --all一起使用。
+    --prune-whitelist=[]: 使用<group/version/kind>为 --prune覆盖默认白名单
+    --record=false: 在资源注解中记录当前kubectl命令。如果设置为 false，则不记录命令。 如果设置为 true，则记录命令。如果未设置，则默认仅在已存在注释值时更新现有注释值。
+-R, --recursive=false: 递归处理 -f, --filename 中使用的目录。 当您想要管理在同一目录中组织的相关清单时很有用。
+-l, --selector='': 要过滤的选择器(标签查询)，支持 '='、'==' 和 '!='。（例如 -l key1=value1,key2=value2）
+    --server-dry-run=false: 如果为 true，请求将发送到带有试运行标志的服务器，这意味着修改不会被持久化。 这是一个内部测试功能和标志。
+    --server-side=false: 如果为 true，则应用在服务器而不是客户端中运行。
+    --template='': -o=go-template, -o=go-template-file 时使用的模板字符串或模板文件路径。 模板格式为 golang 模板
+    --timeout=0s: 放弃删除之前等待的时间长度，零表示根据对象的大小确定超时
+    --validate=true: 如果为 true，则在发送之前使用架构来验证输入
+    --wait=false: 如果为 true，则等待资源消失后再返回。 这等待终结者。
+```
+
+
+
 ## 删除命令
 
 ### kubectl delete删除资源
@@ -328,6 +378,38 @@ kubectl delete pods --all
 -l, --selector='': 要过滤的选择器（标签查询），不包括未初始化的。
     --timeout=0s: 放弃删除之前等待的时间长度，零表示根据对象的大小确定超时
     --wait=true: 如果为 true，则等待资源消失后再返回。这等待终结者。
+```
+
+## 拷贝命令
+
+### kubectl cp资源
+
+**功能说明：** 将文件和目录复制到容器或从容器复制到本地。
+
+```shell
+# 语法
+$ kubectl cp <file-spec-src> <file-spec-dest> [options]
+# 重要的提示：要求容器映像中存在tar二进制文件。如果tar不存在，kubectl cp将失败。
+# 对于高级用例，例如符号链接、通配符扩展或文件模式保留，请考虑使用kubectl exec。
+# 将/tmp/foo本地文件复制到命名空间namespace中远程podName中的/tmp/bar
+tar cf - /tmp/foo | kubectl exec -i -n namespace podName -- tar xf - -C /tmp/bar
+# 将/tmp/foo从远程podName复制到本地的/tmp/bar
+kubectl exec -n namespace podName -- tar cf - /tmp/foo | tar xf - -C /tmp/bar
+# 将/tmp/foo_dir本地目录复制到默认命名空间中远程podName中的/tmp/bar_dir
+kubectl cp /tmp/foo_dir podName:/tmp/bar_dir
+# 将/tmp/foo本地文件复制到特定容器中远程podName中的/tmp/bar
+kubectl cp /tmp/foo podName:/tmp/bar -c container
+# 将/tmp/foo本地文件复制到命名空间namespace中远程podName中的/tmp/bar
+kubectl cp /tmp/foo namespace/podName:/tmp/bar
+# 将/tmp/foo从远程podName复制到本地的/tmp/bar
+kubectl cp namespace/podName:/tmp/foo /tmp/bar
+
+```
+
+```shell
+#选项
+-c, --container='': 容器名称。 如果省略，将选择 pod 中的第一个容器
+		--no-preserve=false: 复制的文件/目录的所有权和权限不会保留在容器中
 ```
 
 

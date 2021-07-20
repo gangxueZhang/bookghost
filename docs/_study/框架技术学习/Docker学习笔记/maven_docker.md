@@ -55,6 +55,7 @@ DOCKER_HOST=unix:///var/run/docker.sock mvn clean package docker:build
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>${spring-boot.version}</version>
         <configuration>
+          	<mainClass>com.oscar.demoApplication</mainClass>
             <finalName>${project.build.finalName}</finalName>
             <layers>
                 <!-- 构建多层写入镜像内容，会增加一个文件清单layers.idx -->

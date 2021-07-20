@@ -1,6 +1,40 @@
 # Docker命令介绍
 ## Docker维护命令
 
+### docker login构建镜像
+
+```shell
+# 命令格式
+$ docker login [OPTIONS] [SERVER]
+# 登陆过程中需要输入用户名和密码
+$ docker login http://demo.com:8843
+username:
+password:
+```
+
+### docker build构建镜像
+
+```shell
+# docker build -t user/imageName:version dockerFilePath
+# -t表示为镜像打一个tag，tag内容是[用户名/镜像名:版本号]
+# dockerFilePath 表示dockerFile文件的路径。当前路径用[.]表示。
+$ docker build -t mlamp/dockerlearn:1.0 .
+$ docker build -t mlamp/dockerlearn:1.0 -f Dockerfile .
+# 一个镜像可以同时打多个tag
+$ docker build -t mlamp/dockerlearn:latest -t mlamp/dockerlearn:v1.0 .
+```
+
+### docker tag打标签
+
+```shell
+# 命令格式
+$ docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]
+# 命令方式1：采用镜像名和版本
+$ docker tag demo-service:v1.0.1 demo.com:8843/test/demo-service:v1.0.1
+# 命令方式2：采用镜像ID
+$ docker tag 62557c09053a demo.com:8843/test/demo-service:v1.0.1
+```
+
 ### docker logs查看日志
 
 **功能说明:**查看docker日志
@@ -8,11 +42,11 @@
 ```shell
 # containerId表示容器ID
 # 查看容器日志信息
-docker logs containerId
+$ docker logs containerId
 # 持续查看容器日志信息
-docker logs -f containerId
+$ docker logs -f containerId
 # 查看容器详细的日志信息
-docker logs --details containerId
+$ docker logs --details containerId
 ```
 ### docker inspect基本信息
 
@@ -21,7 +55,7 @@ docker logs --details containerId
 ```shell
 # containerId表示容器ID
 # 查看Docker对象的基本信息
-docker inspect containerId
+$ docker inspect containerId
 ```
 
 ## Docker常用命令
@@ -29,9 +63,9 @@ docker inspect containerId
 
 ```shell
 # 查看已经启动的容器
-docker ps 
+$ docker ps 
 # 查看所有的容器，包括退出的容器
-docker ps -a 
+$ docker ps -a 
 ```
 ### docker search查找镜像
 
@@ -39,23 +73,27 @@ docker ps -a
 
 ```shell
 # 在公有仓库中查询centos进行
-docker search centos  
+$ docker search centos  
 ```
 ### docker pull下载镜像
 
- **功能说明:** 在`Docker hub`(公有仓库)中下载镜像
+ **功能说明:** 在仓库中下载镜像
 
 ```shell
-# 从公有仓库下载centos镜像
-docker pull centos  
+# 从公有仓库下载镜像
+$ docker pull imageName[:version]
+# 从私有仓库下载centos镜像
+$ docker pull registry:port/imageName[:version]
 ```
 ### docker push上传镜像
 
 **功能说明:** 上传个人镜像
 
 ```shell
-#将centos镜像上传到公有仓库
-docker push centos  
+#将镜像上传到公有仓库
+$ docker push imageName[:version]
+#将镜像上传到私有仓库
+$ docker push registry:port/imageName[:version]
 ```
 ### docker image查看镜像
 
@@ -63,7 +101,7 @@ docker push centos
 
 ```shell
 #列举本地镜像列表
-docker image ls  
+$ docker image ls  
 ```
 ### docker images镜像列表
 **功能说明:** 列举本地镜像列表  
@@ -81,9 +119,9 @@ docker images [OPTIONS] [REPOSITORY[:TAG]]
 **案例说明:**  
 ```shell
 # 列举本地所有镜像列表
-docker images
+$ docker images
 # 列举本地跟java相关的镜像列表
-docker images java
+$ docker images java
 ```
 
 ### docker rmi删除镜像
@@ -102,7 +140,7 @@ docker rmi [OPTIONS] IMAGE [IMAGE...]
 
 ```shell
 # 删除runoob/ubuntu:v4镜像
-docker rmi -f runoob/ubuntu:v4
+$ docker rmi -f runoob/ubuntu:v4
 ```
 
 ### docker run运行镜像
@@ -164,52 +202,30 @@ docker rm [OPTIONS] CONTAINER [CONTAINER...]
 
 ```shell
 # 强制删除容器 db01、db02
-docker rm -f db01 db02
+$ docker rm -f db01 db02
 
 # 移除容器 nginx01 对容器 db01 的连接，连接名 db：
-docker rm -l db 
+$ docker rm -l db 
 
 # 删除容器 nginx01, 并删除容器挂载的数据卷：
-docker rm -v nginx01
+$ docker rm -v nginx01
 
 # 删除所有已经停止的容器：
-docker rm $(docker ps -a -q)
+$ docker rm $(docker ps -a -q)
 ```
 
 # Docker使用场景案例
 
 ## 将自己的镜像打包到私库
 
-* 登录到私库
-
 ```shell
-# 命令格式：docker login [OPTIONS] [SERVER]
-# 登陆过程中需要输入用户名和密码
+# 1、登陆过程中需要输入用户名和密码
 $ docker login http://demo.com:8843
 username:
 password:
-```
-
-* 登录到私有harbor仓库
-
-  创建自己的项目，此处假设新建项目名为：test。
-
-* 给本地镜像打tag
-
-  假设本地镜像名为：`demo-service`，镜像版本为：`v1.0.1`，镜像ID为：`62557c09053a`。
-
-```shell
-# 命令格式：docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]
-# 命令方式1：采用镜像名和版本
-$ docker tag demo-service:v1.0.1 demo.com:8843/test/demo-service:v1.0.1
-# 命令方式2：采用镜像ID
-$ docker tag 62557c09053a demo.com:8843/test/demo-service:v1.0.1
-```
-
-* 推送进行到私有仓库
-
-```shell
+# 2、在私库中创建自己的项目名为：demo
+# 3、给本地镜像打tag，假设私库地址为：demo.com:8843，本地镜像名为：`demo-service`，镜像版本为：`v1.0.1`，镜像ID为：`62557c09053a`
+$ docker tag 62557c09053a demo.com:8843/demo/demo-service:v1.0.1
 # 将之前打的tag推送到私有仓库
-docker push demo.com:8843/test/demo-service:v1.0.1
+$ docker push demo.com:8843/test/demo-service:v1.0.1
 ```
-
