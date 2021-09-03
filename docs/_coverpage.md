@@ -7,4 +7,4 @@
 ![logo](_assets/images/icon_1.jpg)
 
 [开始阅读](README.md)
-[我的GitHub](https://github.com/Ashiamd/docsify-notes)
+[我的GitHub]https://github.com/gangxueZhang/bookghost)
