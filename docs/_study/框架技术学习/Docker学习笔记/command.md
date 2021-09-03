@@ -149,6 +149,7 @@ $ docker rmi -f runoob/ubuntu:v4
 **参数说明:**
 
 ```shell
+# 镜像名一定要放到最后，否者出现无法绑定端口的现象
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 -a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；
 -d: 后台运行容器，并返回容器ID；
@@ -185,6 +186,9 @@ $ docker run -p 127.0.0.1:80:8080/tcp ubuntu bash
 
 #使用镜像nginx:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。
 $ docker run -it nginx:latest /bin/bash
+
+# 绑定容器的50070和8088端口，并将其映射到本地主机的50071和8089端口上。
+$ docker run -itd -p 50071:50070 -p 8089:8088 --name hadoop1 ubuntu:java
 ```
 
 ### docker rm删除容器
