@@ -304,6 +304,8 @@ find /var/log   -mtime +40 -a -size +100k -exec ls -lh {} \;
 find /var/log -type f -a  -mtime  +30 -not -group root -ok rm -rf {} \;
 # 用grep命令在当前目录下的普通文件中搜索hostname这个词
 find ./ -name -type f -print | xargs grep "hostnames"
+# 删除满足条件的文件夹
+find . -type d -name "[a-z]*" | xargs rm -rf
 
 
 # 参数选项
@@ -452,7 +454,7 @@ $ nc -lk 9999
 -z 使用0输入/输出模式，只在扫描通信端口时使用。
 ```
 
-##  Sed
+##  Sed命令
 
 Linux sed 命令是利用脚本来处理文本文件。
 

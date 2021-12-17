@@ -74,8 +74,10 @@ docker export -o redis.tar 177359744e69
 docker import  redis.tar user/redis:latest 
 ```
 
+## 附录A
 
-## 附：两种方案的差别
+### 两种方案的差别
+
 ```
 特别注意：两种方法不可混用。
 如果使用 import 导入 save 产生的文件，虽然导入不提示错误，但是启动容器时会提示失败，会出现类似"docker: Error response from daemon: Container command not found or does not exist"的错误。
@@ -99,3 +101,123 @@ docker import  redis.tar user/redis:latest
 5. 应用场景不同
     * docker export 的应用场景：主要用来制作基础镜像，比如我们从一个 ubuntu 镜像启动一个容器，然后安装一些软件和进行一些设置后，使用 docker export 保存为一个基础镜像。然后，把这个镜像分发给其他人使用，比如作为基础的开发环境。
     * docker save 的应用场景：如果我们的应用是使用 docker-compose.yml 编排的多个镜像组合，但我们要部署的客户服务器并不能连外网。这时就可以使用 docker save 将用到的镜像打个包，然后拷贝到客户服务器上使用 docker load 载入。
+
+### 批量操作镜像
+
+* **镜像源列表**
+
+**文件名：**`image_list/name_images.txt`
+
+```shell
+harbor.com:8843/public/image_1:latest
+harbor.com:8843/public/image_2:latest
+harbor.com:8843/public/image_3:latest
+harbor.com:8843/public/image_4:latest
+```
+
+* **下载镜像**
+
+**文件名：**`down_image.sh`
+
+```shell
+#/bin/bash
+cd `dirname $0`;
+echo `pwd`
+dir_name=${1}
+
+if [ ! -d "${dir_name}" ]; then
+        mkdir ${dir_name}
+fi
+
+docker login harbor.com:8843
+
+echo "读取镜像列表"
+cat image_list/${dir_name}_images.txt | while read line
+do
+    if [[ ${line} =~ ^\#.* ]] || [[ -z "${line}" ]]; then
+        continue
+    fi
+    echo "加载镜像："${line}
+    #打包镜像
+    #对IFS变量进⾏替换处理
+    OLD_IFS="$IFS"
+    IFS="/"
+    array=(${line})
+    IFS="$OLD_IFS"
+
+    if [ ${#array[@]} -gt 1 ] ;then
+        docker pull ${line}
+
+        index=${#array[@]}-1
+        var=${array[index]}
+        echo "保存镜像: "${var}.tar
+        docker save -o ${dir_name}/${var}".tar" $line
+    fi
+done
+echo "压缩镜像包"
+tar -czvf ${dir_name}.tar.gz ${dir_name}/
+```
+
+* **安装上传镜像**
+
+**文件名：**`image_install.sh`
+
+```shell
+#/bin/bash
+#进⼊⽬录
+cd `dirname $0`;
+echo `pwd`
+dir_name=${1}
+
+if [ ! -d "${dir_name}" ]; then
+    echo "解压镜像包"
+    tar -zxf ${dir_name}.tar.gz
+fi
+
+cp image_list/${dir_name}_images.txt ${dir_name}/
+cd ${dir_name}
+echo "读取镜像列表"
+cat ${dir_name}_images.txt | while read line
+do
+    if [[ ${line} =~ ^\#.* ]] || [[ -z "${line}" ]]; then
+        continue
+    fi
+    echo "加载镜像: " ${line}
+    #对IFS变量进⾏替换处理
+    OLD_IFS="$IFS"
+    IFS="/"
+    array=(${line})
+    IFS="$OLD_IFS"
+
+    if [ ${#array[@]} -gt 1 ] ;then
+        index=${#array[@]}-1
+        var=${array[index]}
+        echo "加载压缩文件: "${var}.tar
+        docker load -i ${var}.tar
+    fi
+done
+
+echo "上传镜像列表"
+#登陆新的harbor
+docker login harbor.com:8843
+cat ${dir_name}_images.txt | while read line
+do
+    if [[ ${line} =~ ^\#.* ]]; then
+        continue
+    fi
+    echo "上传镜像: "${line}
+    docker push $line
+    echo "—————--------------------"
+    sleep 1
+done
+```
+
+* **执行脚本说明**
+
+```shell
+# 下载镜像
+$ ./down_image.sh name
+# 安装上传镜像
+$ ./image_install.sh name
+```
+
