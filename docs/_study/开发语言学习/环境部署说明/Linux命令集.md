@@ -383,33 +383,59 @@ $ grep -r update /etc/acpi
 $ grep -v test *test*
 
 # 参数选项
--a 或 --text : 不要忽略二进制的数据。
--A<显示行数> 或 --after-context=<显示行数> : 除了显示符合范本样式的那一列之外，并显示该行之后的内容。
--b 或 --byte-offset : 在显示符合样式的那一行之前，标示出该行第一个字符的编号。
--B<显示行数> 或 --before-context=<显示行数> : 除了显示符合样式的那一行之外，并显示该行之前的内容。
--c 或 --count : 计算符合样式的列数。
--C<显示行数> 或 --context=<显示行数>或-<显示行数> : 除了显示符合样式的那一行之外，并显示该行之前后的内容。
--d <动作> 或 --directories=<动作> : 当指定要查找的是目录而非文件时，必须使用这项参数，否则grep指令将回报信息并停止动作。
--e<范本样式> 或 --regexp=<范本样式> : 指定字符串做为查找文件内容的样式。
--E 或 --extended-regexp : 将样式为延伸的正则表达式来使用。
--f<规则文件> 或 --file=<规则文件> : 指定规则文件，其内容含有一个或多个规则样式，让grep查找符合规则条件的文件内容，格式为每行一个规则样式。
--F 或 --fixed-regexp : 将样式视为固定字符串的列表。
--G 或 --basic-regexp : 将样式视为普通的表示法来使用。
--h 或 --no-filename : 在显示符合样式的那一行之前，不标示该行所属的文件名称。
--H 或 --with-filename : 在显示符合样式的那一行之前，表示该行所属的文件名称。
--i 或 --ignore-case : 忽略字符大小写的差别。
--l 或 --file-with-matches : 列出文件内容符合指定的样式的文件名称。
--L 或 --files-without-match : 列出文件内容不符合指定的样式的文件名称。
--n 或 --line-number : 在显示符合样式的那一行之前，标示出该行的列数编号。
--o 或 --only-matching : 只显示匹配PATTERN 部分。
--q 或 --quiet或--silent : 不显示任何信息。
--r 或 --recursive : 此参数的效果和指定"-d recurse"参数相同。
--s 或 --no-messages : 不显示错误信息。
--v 或 --invert-match : 显示不包含匹配文本的所有行。
--V 或 --version : 显示版本信息。
--w 或 --word-regexp : 只显示全字符合的列。
--x --line-regexp : 只显示全列符合的列。
--y : 此参数的效果和指定"-i"参数相同。
+正则表达式选择和解释:
+  -E, --extended-regexp           PATTERN是扩展正则表达式 (ERE)
+  -F, --fixed-strings             PATTERN是一组以换行符分隔的固定字符串
+  -G, --basic-regexp              PATTERN是一个基本的正则表达式 (BRE)
+  -P, --perl-regexp               PATTERN是一个Perl正则表达式
+  -e, --regexp=PATTERN            使用PATTERN进行匹配
+  -f, --file=FILE                 从FILE获取PATTERN
+  -i, --ignore-case               忽略大小写区别
+  -w, --word-regexp               强制PATTERN只匹配整个单词
+  -x, --line-regexp               强制PATTERN只匹配整行
+  -z, --null-data                 数据行以0字节结尾，而不是换行符
+其他:  
+   -s, --no-messages              抑制错误消息
+   -v, --invert-match             选择不匹配的行
+   -V, --version                  显示版本信息并退出
+       --help                     显示此帮助文本并退出 
+输出控制:  
+  -m, --max-count=NUM             在 NUM 匹配后停止
+  -b, --byte-offset               用输出行打印字节偏移量
+  -n, --line-number               用输出行打印行号
+      --line-buffered             每一行的刷新输出
+  -H, --with-filename             打印每个匹配的文件名
+  -h, --no-filename               禁止输出文件名前缀
+      --label=LABEL               使用 LABEL 作为标准输入文件名前缀
+  -o, --only-matching             只显示匹配 PATTERN 的行的一部分
+  -q, --quiet, --silent           抑制所有正常输出
+      --binary-files=TYPE         假设二进制文件是 TYPE; TYPE 是“二进制”、“文本”或“不匹配”
+  -a, --text                      等同于 --binary-files=text
+  -I                              相当于 --binary-files=without-match
+  -d, --directories=ACTION        如何处理目录； ACTION 是“读取”、“递归”或“跳过”
+  -D, --devices=ACTION            如何处理设备、FIFO 和套接字； ACTION 是“阅读”或“跳过”
+  -r, --recursive                 就像 --directories=recurse
+  -R, --dereference-recursive     同样，但遵循所有符号链接
+      --include=FILE_PATTERN      只搜索匹配 FILE_PATTERN 的文件
+      --exclude=FILE_PATTERN      跳过匹配 FILE_PATTERN 的文件和目录
+      --exclude-from=FILE         跳过与 FILE 中任何文件模式匹配的文件
+      --exclude-dir=PATTERN       匹配 PATTERN 的目录将被跳过。
+  -L, --files-without-match       只打印不包含匹配项的文件名
+  -l, --files-with-matches        只打印包含匹配项的文件名
+  -c, --count                     只打印每个文件的匹配行数
+  -T, --initial-tab               使标签对齐（如果需要）
+  -Z, --null                      在文件名后打印 0 字节
+上下文控制:
+   -B, --before-context=NUM       打印 NUM 行前导上下文
+   -A, --after-context=NUM        打印 NUM 行尾随上下文
+   -C, --context=NUM              打印 NUM 行输出上下文
+   -NUM                           与 --context=NUM 相同
+       --group-separator=SEP      使用 SEP 作为组分隔符
+       --no-group-separator       使用空字符串作为组分隔符
+       --color[=WHEN],
+       --colour[=WHEN]            使用标记来突出匹配的字符串； WHEN 是“always”、“never”或“auto”
+   -U, --binary                   不要在 EOL 时去除 CR 字符 (MSDOS/Windows)
+   -u, --unix-byte-offsets        报告偏移量，就好像 CRs 不存在一样 (MSDOS/Windows)
 ```
 
 ## nc命令
@@ -469,8 +495,6 @@ $ sed [-hnV][-e<script>][-f<script文件>][文本文件]
 # 使用案例
 # 在testfile文件的第四行后添加一行，并将结果输出到标准输出：
 sed -e 4a\newLine testfile 
-# 将当前目录下包含"qwe"串的文件中的"qwe"字符串替换为"abc"
-sed -i "s/qwe/abc/g" `grep "qwe" -rl ./`
 # 将某个文件中的"qwe"字符串替换为"abc"
 sed -i "s/qwe/abc/g" test.txt
 # 如果将某个文件中以"qwe"开头的字符串修改为“abc”
@@ -493,6 +517,16 @@ s ：取代，可以直接进行取代的工作哩！通常这个 s 的动作可
 ```
 
 # 附录A
+
+## 实用场景命令
+
+* **查询并替换文本**
+
+```shell
+# 将当前目录下包含"qwe"串的文件中的"qwe"字符串替换为"abc"
+$ sed -i "s/qwe/abc/g" `grep "qwe" -rl ./`
+$ grep -rl 'qwe' ./* | xargs sed -i '' 's/qwe/abc/g'
+```
 
 ## 参考文档地址
 

@@ -11,3 +11,133 @@
 陷阱
 
 ## 零拷贝
+
+## Kafka命令汇总
+
+### Topic相关命令
+
+[Kafka常用命令之kafka-topics.sh](https://blog.csdn.net/qq_29116427/article/details/80202392?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164217979816780265494531%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=164217979816780265494531&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-4-80202392.nonecase&utm_term=kafka&spm=1018.2226.3001.4450)
+
+```shell
+# 创建 Topic：使用replica-assignment参数手动指定Topic Partition Replica与Kafka Broker之间的存储映射关系
+$ kafka-topics.sh --create --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName --replica-assignment 0:1,1:2,2:0
+# 使用partitions和replication-factor参数自动分配存储映射关系
+$ kafka-topics.sh --create --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName --replica-assignment 0:1,1:2,2:0
+# 创建 Topic 时也可指定参数
+$ kafka-topics.sh --create --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName --partitions 3 --replication-factor 2 --config cleanup.policy=compact --config retention.ms=500
+
+# 查看 Topic 列表
+$ kafka-topics.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --list
+# 查看指定 Topic 明细
+$ kafka-topics.sh --describe --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName
+
+# 删除 Topic
+$ kafka-topics.sh --delete --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName
+
+# 修改 Topic: 增加分区数
+$ kafka-topics.sh --alter --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName --partitions 3
+# 增加配置
+$ kafka-topics.sh --alter --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName --config flush.messages=1
+# 删除配置
+$ kafka-topics.sh --alter --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName --delete-config flush.messages
+```
+
+| 属性名                    | 值类型 | 默认值              | 有效值                                                | 服务器默认属性                  | 描述                                                         |
+| ------------------------- | ------ | ------------------- | ----------------------------------------------------- | ------------------------------- | ------------------------------------------------------------ |
+| cleanup.policy            | list   | delete              | delete<br/>compact                                    | log.cleanup.policy              | 过期或达到上限日志的清理策略。<br/>delete：删除<br/>compact：压缩 |
+| compression.type          | string | producer            | uncompressed<br/>snappy<br/>lz4<br/>gzip<br/>producer | compression.type                | 指定给该topic最终的压缩类型                                  |
+| delete.retention.ms       | long   | 86400000            | [0,…]                                                 | log.cleaner.delete.retention.ms | 压缩的日志保留的最长时间，也是客户端消费消息的最长时间。<br/>与 log.retention.minutes 的区别在于：一个控制未压缩的数据，一个控制压缩后的数据。 |
+| file.delete.delay.ms      | long   | 60000               | [0,…]                                                 | log.segment.delete.delay.ms     | 从文件系统中删除前所等待的时间                               |
+| flush.messages            | long   | 9223372036854775807 | [0,…]                                                 | log.flush.interval.messages     | 在消息刷到磁盘之前，日志分区收集的消息数                     |
+| flush.ms                  | long   | 9223372036854775807 | [0,…]                                                 | log.flush.interval.ms           | 消息在刷到磁盘之前，保存在内存中的最长时间，单位是ms         |
+| index.interval.bytes      | int    | 4096                | [0,…]                                                 | log.index.interval.bytes        | 执行 fetch 操作后，扫描最近的 offset 运行空间的大小。<br/>设置越大，代表扫描速度越快，但是也更耗内存。<br/>（一般情况下不需要设置此参数） |
+| message.max.bytes         | int    | 1000012             | [0,…]                                                 | message.max.bytes               | log中能够容纳消息的最大字节数                                |
+| min.cleanable.dirty.ratio | double | 0.5                 | [0,…,1]                                               | log.cleaner.min.cleanable.ratio | 日志清理的频率控制，占该log的百分比。<br/>越大意味着更高效的清理，同时会存在空间浪费问题 |
+| retention.bytes           | long   | -1                  |                                                       | log.retention.bytes             | topic每个分区的最大文件大小。<br/>一个 topic 的大小限制 = 分区数 * log.retention.bytes。<br/>-1 表示没有大小限制。 |
+| retention.ms              | int    | 604800000           | [-1,…]                                                | log.retention.minutes           | 日志文件保留的分钟数。<br/>数据存储的最大时间超过这个时间会根据 log.cleanup.policy 设置的策略处理数据 |
+| segment.bytes             | int    | 1073741824          | [14,…]                                                | log.segment.bytes               | 每个 segment 的大小 (默认为1G)                               |
+| segment.index.bytes       | int    | 10485760            | [0,…]                                                 | log.index.size.max.bytes        | 对于segment日志的索引文件大小限制(默认为10M)                 |
+
+### 数据生产命令
+
+```shell
+# 无key型消息
+$ kafka-console-producer.sh --bootstrap-server localhsot:9092 --topic topicName
+>Hello Kafka!
+>你好 kafka!
+# 有key型消息：默认消息键与消息值间使用“Tab键”进行分隔
+$ kafka-console-producer.sh --bootstrap-server localhsot:9092 --topic topicName --property parse.key=true
+>Lei Li    Hello Kafka!
+>Meimei Han    你好 kafka!
+```
+
+| 参数                         | 值类型  | 说明                                                      | 有效值                                                       |
+| ---------------------------- | ------- | --------------------------------------------------------- | ------------------------------------------------------------ |
+| --bootstrap-server           | String  | 要连接的服务器<br/>必需(除非指定--broker-list)            | 形如：host1:prot1,host2:prot2                                |
+| --topic                      | String  | (必需)接收消息的主题名称                                  |                                                              |
+| --broker-list                | String  | 已过时要连接的服务器                                      | 形如：host1:prot1,host2:prot2                                |
+| --batch-size                 | Integer | 单个批处理中发送的消息数                                  | 200(默认值)                                                  |
+| --compression-codec          | String  | 压缩编解码器                                              | none、gzip(默认值)<br/>snappy、lz4、zstd                     |
+| --max-block-ms               | Long    | 发送请求期间，生产者将阻止的最长时间                      | 60000(默认值)                                                |
+| --max-memory-bytes           | Long    | 生产者用来缓冲等待发送到服务器的总内存                    | 33554432(默认值)                                             |
+| --max-partition-memory-bytes | Long    | 为分区分配的缓冲区大小                                    | 16384                                                        |
+| --message-send-max-retries   | Integer | 最大的重试发送次数                                        | 3                                                            |
+| --metadata-expiry-ms         | Long    | 强制更新元数据的时间阈值(ms)                              | 300000                                                       |
+| --producer-property          | String  | 将自定义属性传递给生成器的机制                            | 形如：key=value                                              |
+| --producer.config            | String  | 生产者配置属性文件<br/>[--producer-property]优先于此配置  | 配置文件完整路径                                             |
+| --property                   | String  | 自定义消息读取器                                          | parse.key=true\|false<br/>key.separator=<key.separator><br/>ignore.error=true\|false |
+| --request-required-acks      | String  | 生产者请求的确认方式                                      | 0、1(默认值)、all                                            |
+| --request-timeout-ms         | Integer | 生产者请求的确认超时时间                                  | 1500(默认值)                                                 |
+| --retry-backoff-ms           | Integer | 生产者重试前，刷新元数据的等待时间阈值                    | 100(默认值)                                                  |
+| --socket-buffer-size         | Integer | TCP接收缓冲大小                                           | 102400(默认值)                                               |
+| --timeout                    | Integer | 消息排队异步等待处理的时间阈值                            | 1000(默认值)                                                 |
+| --sync                       |         | 同步发送消息                                              |                                                              |
+| --version                    |         | 显示 Kafka 版本<br/>不配合其他参数时，显示为本地Kafka版本 |                                                              |
+| --help                       |         | 打印帮助信息                                              |                                                              |
+
+### 数据消费命令
+
+```shell
+# 消息消费
+$ kafka-console-consumer.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --topic topicName
+# 从开始位置消费
+$ kafka-console-consumer.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --from-beginning --topic topicName
+# 显示key消费
+$ kafka-console-consumer.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --property print.key=true --topic topicName
+
+```
+
+| 参数                      | 值类型  | 说明                                                         | 有效值                                                       |
+| ------------------------- | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| --topic                   | string  | 被消费的topic                                                |                                                              |
+| --whitelist               | string  | 正则表达式，指定要包含以供使用的主题的白名单                 |                                                              |
+| --partition               | integer | 指定分区<br/>除非指定’--offset’，否则从分区结束(latest)开始消费 |                                                              |
+| --offset                  | string  | 执行消费的起始offset位置<br/>默认值:latest                   | latest、earliest、<offset>                                   |
+| --consumer-property       | string  | 将用户定义的属性以key=value的形式传递给使用者                |                                                              |
+| --consumer.config         | string  | 消费者配置属性文件<br/>请注意，[consumer-property]优先于此配置 |                                                              |
+| --formatter               | string  | 用于格式化kafka消息以供显示的类的名称<br/>默认值:kafka.tools.DefaultMessageFormatter | kafka.tools.DefaultMessageFormatter<br/>kafka.tools.LoggingMessageFormatter<br/>kafka.tools.NoOpMessageFormatter<br/>kafka.tools.ChecksumMessageFormatter |
+| --property                | string  | 初始化消息格式化程序的属性                                   | print.timestamp=true\|false <br>print.key=true\|false <br/>print.value=true\|false<br/>key.separator=<key.separator><br/>line.separator=<line.separator><br/>key.deserializer=<key.deserializer><br/>value.deserializer=<value.deserializer> |
+| --from-beginning          |         | 从存在的最早消息开始，而不是从最新消息开始                   |                                                              |
+| --max-messages            | integer | 消费的最大数据量，若不指定，则持续消费下去                   |                                                              |
+| --timeout-ms              | integer | 在指定时间间隔内没有消息可用时退出                           |                                                              |
+| --skip-message-on-error   |         | 如果处理消息时出错，请跳过它而不是暂停                       |                                                              |
+| --bootstrap-server        | string  | 必需(除非使用旧版本的消费者)，要连接的服务器                 |                                                              |
+| --key-deserializer        | string  |                                                              |                                                              |
+| --value-deserializer      | string  |                                                              |                                                              |
+| --enable-systest-events   |         | 除记录消费的消息外，还记录消费者的生命周期，(用于系统测试)   |                                                              |
+| --isolation-level         | string  | 设置为read_committed以过滤掉未提交的事务性消息 设置为read_uncommitted以读取所有消息 默认值:read_uncommitted |                                                              |
+| --group                   | string  | 指定消费者所属组的ID                                         |                                                              |
+| --blacklist               | string  | 要从消费中排除的主题黑名单                                   |                                                              |
+| --csv-reporter-enabled    |         | 如果设置，将启用csv metrics报告器                            |                                                              |
+| --delete-consumer-offsets |         | 如果指定，则启动时删除zookeeper中的消费者信息                |                                                              |
+| --metrics-dir             | string  | 输出csv度量值，需与[csv-reporter-enable]配合使用             |                                                              |
+| --zookeeper               | string  | 必需(仅当使用旧的使用者时)连接zookeeper的字符串。            |                                                              |
+
+
+
+
+
+
+
+
+

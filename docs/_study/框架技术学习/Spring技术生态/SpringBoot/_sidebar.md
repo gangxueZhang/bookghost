@@ -1,7 +1,10 @@
 * **导读目录**
   * [**返回上级目录**](../README)
-  * [**Springboot配置logback日志详解**](Springboot配置logback日志详解)
-  * [**Spring控制反转和依赖注入**](Spring控制反转和依赖注入)
-  * [**Springboot集成Swagger**](Springboot集成Swagger)
   * [**Jackson工具使用说明**](jackson)
-
+  * [**Spring控制反转和依赖注入**](Spring控制反转和依赖注入)
+  * [**Springboot集成EasyExcel**](Springboot集成EasyExcel)
+  * [**SpringBoot集成Flowable**](SpringBoot集成Flowable)
+  * [**Springboot集成Mybatis**](Springboot集成Mybatis)
+  * [**Springboot集成MybatisPlus**](Springboot集成MybatisPlus)
+  * [**Springboot集成Swagger**](Springboot集成Swagger)
+  * [**Springboot配置logback日志详解**](Springboot配置logback日志详解)
