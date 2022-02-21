@@ -50,6 +50,7 @@ $ tmux detach
 $ tmux a 
 # 进入到名称为demo的会话
 $ tmux a -t demo 
+$ tmux attach-session -t demo
 ```
 
 * **关闭会话**
@@ -64,7 +65,7 @@ $ tmux kill-server
 * **查看所有的会话**
 
 ```shell
-tmux list-session # 查看所有会话
+$ tmux list-session # 查看所有会话
 # 查看所有会话，提倡使用简写形式
 $ tmux ls 
 ```
