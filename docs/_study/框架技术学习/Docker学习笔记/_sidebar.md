@@ -1,17 +1,27 @@
 * **导读目录**
   * [**返回上级目录**](../README)
-  * [**Docker安装**](install)
-  * [**Docker命令介绍**](command)
-  * [**DockerFile详解**](dockerfile)
-  * [**基于DockerFile构建镜像**](buildimage)
-  * [**docker-compose详解**](compose)
   * [**基于compose构建镜像**](buildcompose)
-  * [**Docker构建私有仓库**](registry)
+  * [**基于DockerFile构建镜像**](buildimage)
+  * [**Docker命令介绍**](command)
+  * [**docker-compose详解**](compose)
+  * [**DockerFile详解**](dockerfile)
   * [**Docker获取远程仓库镜像列表**](imageList)
-  * [**Docker镜像离线使用**](offline)
-  * [**Maven整合Docker插件**](maven_docker)
+  * [**Docker安装**](install)
   * [**Kubernetes安装**](installk8s)
   * [**Kubernetes基础知识**](k8s_basic)
   * [**Kubernetes命令介绍**](k8s_command)
+  * [**K8S部署nginx服务**](k8s_nginx)
+  * [**Maven整合Docker插件**](maven_docker)
+  * [**Docker镜像离线使用**](offline)
+  * [**Docker构建私有仓库**](registry)
   * [**Docker使用问题记录**](trouble_tickets)
+  
+  
+  
+  
+  
+  
+  
+  
+  
 

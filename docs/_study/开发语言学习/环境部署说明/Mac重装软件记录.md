@@ -48,15 +48,16 @@
 
 ## 开发软件
 
-| 序号 | 软件名称      | 优先级 | 描述             |
-| ---- | ------------- | ------ | ---------------- |
-| 1    | Mootoo        | 必装   | 开发小工具       |
-| 2    | Visual Studio | 必装   | 其他语言开发工具 |
-| 3    | Idea          | 必装   | Java开发工具     |
-| 4    | HbuilderX     | 选装   | 前端开发工具     |
-| 5    | Postman       | 选装   | Http请求模拟     |
-| 6    | Apifox        | 选装   | Postman+swagger  |
-| 7    | subline text  | 必装   | 文本编辑器       |
+| 序号 | 软件名称                     | 优先级 | 描述                                |
+| ---- | ---------------------------- | ------ | ----------------------------------- |
+| 1    | Mootoo                       | 必装   | 开发小工具                          |
+| 2    | Visual Studio                | 必装   | 其他语言开发工具                    |
+| 3    | Idea                         | 必装   | Java开发工具                        |
+| 4    | HbuilderX                    | 选装   | 前端开发工具                        |
+| 5    | Postman                      | 选装   | Http请求模拟                        |
+| 6    | Apifox                       | 选装   | Postman+swagger                     |
+| 7    | subline text                 | 必装   | 文本编辑器                          |
+| 8    | Offset Explorer（kafkatool） | 必装   | 管理和使用Kafka集群的GUI 应用程序。 |
 
 ## 付费软件
 
