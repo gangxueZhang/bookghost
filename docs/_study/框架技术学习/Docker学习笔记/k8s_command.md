@@ -19,7 +19,7 @@ $ kubectl
 
 ```shell
 # 选项
-		--add-dir-header=false: 如果为 true，则将文件目录添加到标题中
+	--add-dir-header=false: 如果为 true，则将文件目录添加到标题中
     --alsologtostderr[=false]: 同时输出日志到标准错误控制台和文件。
     --as='': 模拟操作的用户名
     --as-group=[]: 用于模拟组的操作，此标志可以重复指定多个组。
@@ -45,7 +45,7 @@ $ kubectl
     --profile-output='profile.pprof': 要将配置文件写入到的文件名
     --request-timeout='0': 在放弃单个服务器请求之前等待的时间长度。 非零值
 -s, --server="": Kubernetes API Server的地址和端口号。
-		--skip-headers=false: 如果为 true，则避免在日志消息中使用标题前缀
+	--skip-headers=false: 如果为 true，则避免在日志消息中使用标题前缀
     --skip-log-headers=false: 如果为 true，则在打开日志文件时避免使用标头
     --stderrthreshold=2: 高于此级别的日志将被输出到错误控制台。
     --token="": 认证到API Server使用的令牌。
@@ -85,26 +85,26 @@ $ kubectl get all
 ```shell
 # 选项
 -A, --all-namespaces=false: 列出所有命名空间中请求的对象
-		--allow-missing-template-keys=true: 如果为true，则在模板中缺少字段或映射键时忽略模板中的任何错误。仅适用于golang和jsonpath输出格式。
-		--chunk-size=500: 分块返回大列表，而不是一次全部返回。传递0以禁用。此标志是测试版，将来可能会更改。
-		--field-selector='': 要过滤的选择器（字段查询），支持 '='、'==' 和 '!='。（例如 --field-selector key1=value1,key2=value2）。 
+	--allow-missing-template-keys=true: 如果为true，则在模板中缺少字段或映射键时忽略模板中的任何错误。仅适用于golang和jsonpath输出格式。
+	--chunk-size=500: 分块返回大列表，而不是一次全部返回。传递0以禁用。此标志是测试版，将来可能会更改。
+	--field-selector='': 要过滤的选择器（字段查询），支持 '='、'==' 和 '!='。（例如 --field-selector key1=value1,key2=value2）。 
 -f, --filename=[]: 文件名、目录或 URL，用于标识要从服务器获取的资源的文件。
-		--ignore-not-found=false: 如果请求的对象不存在，该命令将返回退出代码 0。
+	--ignore-not-found=false: 如果请求的对象不存在，该命令将返回退出代码 0。
 -k, --kustomize='': 处理自定义目录。 此标志不能与 -f 或 -R 一起使用。
 -L, --label-columns=[]: 接受逗号分隔的标签列表，名字区分大小写。 多个标志选项使用：-L label1 -L label2
-		--no-headers=false: 使用默认或自定义列输出格式时，不要打印标题（默认打印标题）。
+	--no-headers=false: 使用默认或自定义列输出格式时，不要打印标题（默认打印标题）。
 -o, --output='': 输出格式。 之一：json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...| jsonpath-文件=...
-		--output-watch-events=false: 使用 --watch 或 --watch-only 时输出监视事件对象。 现有对象作为初始 ADDED 事件输出。
-		--raw='': 从服务器请求的原始 URI。 使用 kubeconfig 文件指定的传输。
+	--output-watch-events=false: 使用 --watch 或 --watch-only 时输出监视事件对象。 现有对象作为初始 ADDED 事件输出。
+	--raw='': 从服务器请求的原始 URI。 使用 kubeconfig 文件指定的传输。
 -R, --recursive=false: 递归处理 -f, --filename 中使用的目录。 当您想要管理在同一目录中组织的相关清单时很有用。
 -l, --selector='': 要过滤的选择器（标签查询），支持 '='、'==' 和 '!='。（例如 -l key1=value1,key2=value2）
-		--server-print=true: 如果为true，则让服务器返回适当的表输出。支持扩展API和CRD。
-		--show-kind=false: 如果存在，请列出所请求对象的资源类型。
-		--show-labels=false: 打印时，将所有标签显示为最后一列（默认隐藏标签列）
-		--sort-by='': 如果非空，请使用此字段规范对列表类型进行排序。字段规范表示为JSONPath表达式（例如“{.metadata.name}”）
-		--template='': -o=go-template, -o=go-template-file时使用的模板字符串或模板文件路径。
+	--server-print=true: 如果为true，则让服务器返回适当的表输出。支持扩展API和CRD。
+	--show-kind=false: 如果存在，请列出所请求对象的资源类型。
+	--show-labels=false: 打印时，将所有标签显示为最后一列（默认隐藏标签列）
+	--sort-by='': 如果非空，请使用此字段规范对列表类型进行排序。字段规范表示为JSONPath表达式（例如“{.metadata.name}”）
+	--template='': -o=go-template, -o=go-template-file时使用的模板字符串或模板文件路径。
 -w, --watch=false: 列出/获取请求的对象后，注意更改。 如果未提供对象名称，则排除未初始化的对象。
-		--watch-only=false: 注意对请求对象的更改，而不是首先列出/获取。
+	--watch-only=false: 注意对请求对象的更改，而不是首先列出/获取。
 ```
 
 ### kubectl describe查看详细信息
@@ -135,7 +135,7 @@ $ kubectl describe pods frontend
 -k, --kustomize='': 处理自定义目录。 此标志不能与 -f 或 -R 一起使用。
 -R, --recursive=false: 递归处理 -f, --filename 中使用的目录。 当您想要管理在同一目录中组织的相关清单时很有用。
 -l, --selector='': 要过滤的选择器（标签查询），支持 '='、'==' 和 '!='。（例如 -l key1=value1,key2=value2）
-		--show-events=true: 如果为 true，则显示与所描述对象相关的事件。
+	--show-events=true: 如果为 true，则显示与所描述对象相关的事件。
 ```
 
 ### kubectl logs查看日志
@@ -161,13 +161,13 @@ $ kubectl logs --since=1h nginx
 # 选项
 -c, --container="": 容器名。
 -f, --follow[=false]: 指定是否持续输出日志。
-		--interactive[=true]: 如果为true，当需要时提示用户进行输入。默认为true。
-		--limit-bytes=0: 输出日志的最大字节数。默认无限制。
+	--interactive[=true]: 如果为true，当需要时提示用户进行输入。默认为true。
+	--limit-bytes=0: 输出日志的最大字节数。默认无限制。
 -p, --previous[=false]: 如果为true，输出pod中曾经运行过，但目前已终止的容器的日志。
-		--since=0: 仅返回相对时间范围，如5s、2m或3h，之内的日志。默认返回所有日志。只能同时使用since和since-time中的一种。
-		--since-time="": 仅返回指定时间（RFC3339格式）之后的日志。默认返回所有日志。只能同时使用since和since-time中的一种。
-		--tail=-1: 要显示的最新的日志条数。默认为-1，显示所有的日志。
-		--timestamps[=false]: 在日志中包含时间戳。
+	--since=0: 仅返回相对时间范围，如5s、2m或3h，之内的日志。默认返回所有日志。只能同时使用since和since-time中的一种。
+	--since-time="": 仅返回指定时间（RFC3339格式）之后的日志。默认返回所有日志。只能同时使用since和since-time中的一种。
+	--tail=-1: 要显示的最新的日志条数。默认为-1，显示所有的日志。
+	--timestamps[=false]: 在日志中包含时间戳。
 ```
 
 ### kubectl exec执行命令
@@ -230,20 +230,20 @@ secret              使用指定的子命令创建一个秘密
 service             使用指定的子命令创建服务。
 serviceaccount      创建具有指定名称的服务帐户
 #选项
-		--allow-missing-template-keys=true: 如果为true，则在模板中缺少字段或映射键时忽略模板中的任何错误。仅适用于golang和jsonpath输出格式。
-		--dry-run=false: 如果为 true，则只打印将要发送的对象，而不发送它。
-		--edit=false: 在创建之前编辑 API 资源
+	--allow-missing-template-keys=true: 如果为true，则在模板中缺少字段或映射键时忽略模板中的任何错误。仅适用于golang和jsonpath输出格式。
+	--dry-run=false: 如果为 true，则只打印将要发送的对象，而不发送它。
+	--edit=false: 在创建之前编辑 API 资源
 -f, --filename=[]: 用于创建资源的文件名、目录或 URL
 -k, --kustomize='': 处理自定义目录。 此标志不能与 -f 或 -R 一起使用。
 -o, --output='': 输出格式。 其中之一：json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-file。
-		--raw='': POST 到服务器的原始 URI。 使用 kubeconfig 文件指定的传输。
-		--record=false: 在资源注解中记录当前kubectl命令。 如果设置为 false，则不记录命令。如果设置为true,则记录命令。
+	--raw='': POST 到服务器的原始 URI。 使用 kubeconfig 文件指定的传输。
+	--record=false: 在资源注解中记录当前kubectl命令。 如果设置为 false，则不记录命令。如果设置为true,则记录命令。
 -R, --recursive=false: 递归处理 -f, --filename 中使用的目录。 当您想要管理在同一目录中组织的相关清单时很有用。
-		--save-config=false: 如果为 true，则当前对象的配置将保存在其注释中。否则注释将保持不变。当您以后想在此对象上执行kubectl apply时，此标志很有用。
+	--save-config=false: 如果为 true，则当前对象的配置将保存在其注释中。否则注释将保持不变。当您以后想在此对象上执行kubectl apply时，此标志很有用。
 -l, --selector='': 要过滤的选择器（标签查询），支持 '='、'==' 和 '!='。（例如 -l key1=value1,key2=value2）
-		--template='': -o=go-template, -o=go-template-file 时使用的模板字符串或模板文件路径。
-		--validate=true: 如果为 true，则在发送之前使用架构来验证输入
-		--windows-line-endings=false: 仅在 --edit=true 时相关。
+	--template='': -o=go-template, -o=go-template-file 时使用的模板字符串或模板文件路径。
+	--validate=true: 如果为 true，则在发送之前使用架构来验证输入
+	--windows-line-endings=false: 仅在 --edit=true 时相关。
 ```
 
 ## 更新命令
@@ -409,7 +409,7 @@ kubectl cp namespace/podName:/tmp/foo /tmp/bar
 ```shell
 #选项
 -c, --container='': 容器名称。 如果省略，将选择 pod 中的第一个容器
-		--no-preserve=false: 复制的文件/目录的所有权和权限不会保留在容器中
+	--no-preserve=false: 复制的文件/目录的所有权和权限不会保留在容器中
 ```
 
 

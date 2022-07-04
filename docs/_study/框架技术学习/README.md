@@ -2,6 +2,10 @@
 
 ## 技术参考博客网站
 
+### [咕泡教育学习指南](https://doc.gupaoedu.cn/#/)
+
+### [Java学习面试指南](https://javaguide.cn/)
+
 ### [田守枝Java技术博客](http://www.tianshouzhi.com/)
 
 ![image-20210721083347048](_images/README/image-20210721083347048.png)
